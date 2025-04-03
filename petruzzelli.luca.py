@@ -1,12 +1,12 @@
 import random
 import pandas as pd
 
-# Definizione delle rarità e probabilità
+
 RARITA = ['Comune', 'Non Comune', 'Rara', 'Ultra Rara']
 PROBABILITA = [0.7, 0.2, 0.09, 0.01]
 
-trovate = {}  # Dizionario per memorizzare le carte trovate
-punti = 100  # Punti iniziali
+trovate = {} 
+punti = 100  
 
 # Punti da guadagnare in base alla rarità
 GUADAGNO_PUNTI = {
@@ -66,7 +66,7 @@ def istruzioni():
 # Funzione per visualizzare l'intera collezione
 def mostra_collezione():
     if trovate:
-        print("\nCollezione di carte trovate:")
+        print("Collezione di carte trovate:")
         for carta, info in trovate.items():
             print(f"{carta} - Rarità: {info['rarità']}, Punti guadagnati: {info['guadagno']}")
     else:
@@ -80,10 +80,10 @@ while True:
         print("Grazie per aver giocato!")
         break
     elif messaggio == 1:
-        punti = gioco(punti)  # Passa i punti correnti alla funzione gioco
+        punti = gioco(punti)  
     elif messaggio == 2:
-        mostra_collezione()  # Mostra l'intera collezione di carte trovate
+        mostra_collezione()  
     elif messaggio == 3:
-        print(f"Hai {punti} punti.")  # Mostra i punti correnti
+        print(f"Hai {punti} punti.")  
     else:
         print("Scelta non valida.")
