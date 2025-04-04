@@ -1,89 +1,91 @@
 import random
-import pandas as pd
+import pandas 
 
-
-RARITA = ['Comune', 'Non Comune', 'Rara', 'Ultra Rara']
-PROBABILITA = [0.7, 0.2, 0.09, 0.01]
-
-trovate = {} 
-punti = 100  
-
-# Punti da guadagnare in base alla rarità
-GUADAGNO_PUNTI = {
-    'Comune': 2,
-    'Non Comune': 5,
-    'Rara': 10,
-    'Ultra Rara': 20
+dataframe_pokemon = pandas.read_csv('pokemon.csv')
+punti = 100
+punti_tot = punti
+probabilità = {
+    'Comune': 0.9,
+    'Non Comune': 0.6,
+    'Rara': 0.1,
+    'Ultra Rara': 0.02
 }
 
-# Funzione per generare una carta casuale
-def genera_carta():
-    r = random.choices(RARITA, PROBABILITA)[0]
-    return r
+
+def salva_collezione(pacchetto):
+    collezione = pandas.DataFrame(pacchetto)
+    collezione.to_csv('carte_trovate.csv')
+    print("Collezione salvata")
+
+
 
 # Funzione per aprire un pacchetto
 def apri_pacchetto():
-    carte = [genera_carta() for _ in range(5)]  # Genera 5 carte
-    return carte
+    global punti_tot
+    pacchetto = []
+    punti_guadagnati = 0 
+    if punti >=10:
+        punti_tot -= 10
+        for i in range(5):                 
+            rarita_casuale = random.choices(list(probabilità.keys()),weights=probabilità.values(),k=1)[0]
+                
+            carta = dataframe_pokemon[dataframe_pokemon['Rarità'] == rarita_casuale].sample(n=1).iloc[0]
+            pacchetto.append(carta)
+
+            if rarita_casuale == 'Comune':
+                punti_guadagnati += 2
+            elif rarita_casuale == 'Non Comune':
+                punti_guadagnati += 5
+            elif rarita_casuale == 'Rara':
+                punti_guadagnati += 10
+            elif rarita_casuale == 'Ultra Rara':
+                punti_guadagnati += 20
+               
+        punti_tot += punti_guadagnati        
+        print(f"Hai guadagnato {punti_guadagnati} punti. Ora hai {punti_tot} punti.")
+        stampa_carte(pacchetto)       
+        salva_collezione(pacchetto)
+    else:
+        print("non hai abbastanza punti")
+    return pacchetto, punti_tot
+
 
 # Funzione per stampare le carte
-def stampa_carte(carte):
+def stampa_carte(pacchetto):
     print("Carte trovate nel pacchetto:")
-    for carta in carte:
-        print(f"- {carta}")
+    for carta in pacchetto:
+        print("-", carta)
 
-# Funzione per il gioco
-def gioco(punti):
-    if punti >= 10:
-        punti -= 10  # Diminuisci 10 punti per aprire il pacchetto
-        print("Ora hai", punti, "punti.")
-        
-        carte = apri_pacchetto()  # Apre il pacchetto e ottiene le carte
-        stampa_carte(carte)  # Stampa le carte
 
-        # Calcola il guadagno di punti
-        guadagno = 0
-        for carta in carte:
-            guadagno += GUADAGNO_PUNTI[carta]
-            # Aggiungi la carta alla collezione
-            if carta not in trovate:
-                trovate[carta] = {"rarità": carta, "guadagno": GUADAGNO_PUNTI[carta]}
 
-        print(f"Hai guadagnato {guadagno} punti!")
-        punti += guadagno
-        return punti
-    else:
-        print("Punti insufficienti.")
-        return punti
 
 # Funzione per visualizzare le istruzioni
 def istruzioni():
-    print("\nPremi 0 per uscire")
-    print("Premi 1 per aprire un pacchetto")
-    print("Premi 2 per mostrare l'intera collezione")
-    print("Premi 3 per mostrare i punti")
+    print("------------------Premi 0 per uscire--------------------")
+    print("-------------Premi 1 per aprire un pacchetto------------")
+    print("-------Premi 2 per mostrare l'intera collezione---------")
+    print("-------------Premi 3 per mostrare i punti---------------")
 
 # Funzione per visualizzare l'intera collezione
-def mostra_collezione():
-    if trovate:
-        print("Collezione di carte trovate:")
-        for carta, info in trovate.items():
-            print(f"{carta} - Rarità: {info['rarità']}, Punti guadagnati: {info['guadagno']}")
-    else:
-        print("Non hai ancora trovato alcuna carta.")
+def mostra_intera_collezione():
+    collezione_completa = pandas.read_csv('carte_trovate.csv')
+    print(collezione_completa)
 
-# Ciclo principale del gioco
+
 while True:
     istruzioni()
-    messaggio = int(input("Menu: "))
-    if messaggio == 0:
-        print("Grazie per aver giocato!")
-        break
-    elif messaggio == 1:
-        punti = gioco(punti)  
-    elif messaggio == 2:
-        mostra_collezione()  
-    elif messaggio == 3:
-        print(f"Hai {punti} punti.")  
-    else:
-        print("Scelta non valida.")
+    try:
+        messaggio = int(input("Menu: "))
+        if messaggio == 0:
+            print("Grazie per aver giocato!")
+            break
+        elif messaggio == 1:
+            apri_pacchetto() 
+        elif messaggio == 2:
+            mostra_intera_collezione()  
+        elif messaggio == 3:
+            print(f"Hai {punti_tot} punti.")  
+        else:
+            print("Scelta non valida.")
+    except ValueError:
+        print("Inserisci un numero valido.")
