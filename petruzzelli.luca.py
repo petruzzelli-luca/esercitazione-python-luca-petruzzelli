@@ -12,11 +12,6 @@ probabilità = {
 }
 
 
-def salva_collezione(pacchetto):
-    collezione = pandas.DataFrame(pacchetto)
-    collezione.to_csv('carte_trovate.csv')
-    print("Collezione salvata")
-
 
 
 # Funzione per aprire un pacchetto
@@ -48,6 +43,12 @@ def apri_pacchetto():
     else:
         print("non hai abbastanza punti")
     return pacchetto, punti_tot
+
+def salva_collezione(pacchetto):
+    collezione = pandas.DataFrame(pacchetto)
+    collezione.to_csv('carte_trovate.csv')
+    print("Collezione salvata")
+
 
 
 # Funzione per stampare le carte
