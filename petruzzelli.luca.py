@@ -62,12 +62,12 @@ def stampa_carte(pacchetto):
 
 
 def istruzioni():
-    print("----------------------------------------------------------------------")
-    print("------------------------Premi 0 per uscire----------------------------")
-    print("Premi 1 per aprire un pacchetto (il costo del pacchetto è di 10 punti)")
-    print("--------------Premi 2 per mostrare l'intera collezione----------------")
-    print("--------------------Premi 3 per mostrare i punti----------------------")
-    print("----------------------------------------------------------------------")
+    print("----------------------------------------------------------------------------")
+    print("---------------------------Premi 0 per uscire-------------------------------")
+    print("---Premi 1 per aprire un pacchetto (il costo del pacchetto è di 10 punti)---")
+    print("-----------------Premi 2 per mostrare l'intera collezione-------------------")
+    print("-----------------------Premi 3 per mostrare i punti-------------------------")
+    print("----------------------------------------------------------------------------")
 
 def mostra_intera_collezione():
     collezione_completa = pandas.read_csv('carte_trovate.csv')
