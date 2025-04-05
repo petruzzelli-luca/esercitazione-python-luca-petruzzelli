@@ -5,16 +5,16 @@ dataframe_pokemon = pandas.read_csv('pokemon.csv')
 punti = 100
 punti_tot = punti
 probabilità = {
-    'Comune': 0.9,
-    'Non Comune': 0.6,
-    'Rara': 0.1,
-    'Ultra Rara': 0.02
+    'Comune': 0.7,
+    'Non Comune': 0.2,
+    'Rara': 0.09,
+    'Ultra Rara': 0.01
 }
 
 
 
 
-# Funzione per aprire un pacchetto
+
 def apri_pacchetto():
     global punti_tot
     pacchetto = []
@@ -51,7 +51,7 @@ def salva_collezione(pacchetto):
 
 
 
-# Funzione per stampare le carte
+# stampare le carte
 def stampa_carte(pacchetto):
     print("Carte trovate nel pacchetto:")
     for carta in pacchetto:
@@ -60,14 +60,15 @@ def stampa_carte(pacchetto):
 
 
 
-# Funzione per visualizzare le istruzioni
-def istruzioni():
-    print("------------------Premi 0 per uscire--------------------")
-    print("-------------Premi 1 per aprire un pacchetto------------")
-    print("-------Premi 2 per mostrare l'intera collezione---------")
-    print("-------------Premi 3 per mostrare i punti---------------")
 
-# Funzione per visualizzare l'intera collezione
+def istruzioni():
+    print("----------------------------------------------------------------------")
+    print("------------------------Premi 0 per uscire----------------------------")
+    print("Premi 1 per aprire un pacchetto (il costo del pacchetto è di 10 punti)")
+    print("--------------Premi 2 per mostrare l'intera collezione----------------")
+    print("--------------------Premi 3 per mostrare i punti----------------------")
+    print("----------------------------------------------------------------------")
+
 def mostra_intera_collezione():
     collezione_completa = pandas.read_csv('carte_trovate.csv')
     print(collezione_completa)
